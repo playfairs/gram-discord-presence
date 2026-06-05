@@ -19,8 +19,11 @@
 
 pub mod activity;
 mod idle;
+pub mod presence;
 mod rules;
 mod update;
+
+pub use presence::PresenceConfig;
 
 use std::collections::HashMap;
 
