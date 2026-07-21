@@ -46,7 +46,7 @@ impl Default for Idle {
             action: IdleAction::default(),
             activity: Activity {
                 state: Some("Idling".to_string()),
-                details: Some("In Gram".to_string()),
+                details: Some(String::from("In {workspace}")),
                 large_image: Some("{base_icons_url}/gram.png".to_string()),
                 large_text: Some("Gram".to_string()),
                 small_image: Some("{base_icons_url}/idle.png".to_string()),
