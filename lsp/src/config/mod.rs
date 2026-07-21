@@ -38,7 +38,7 @@ use serde_json::{Map, Value};
 
 use crate::{config::activity::Activity, error::Result};
 
-const DEFAULT_APP_ID: &str = "1263505205522337886";
+const DEFAULT_APP_ID: &str = "1529209714779492443";
 const DEFAULT_ICONS_URL: &str =
     "https://raw.githubusercontent.com/playfairs/gram-discord-presence/main/assets/icons/";
 
