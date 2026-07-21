@@ -5,6 +5,11 @@ on:
       version:
         description: "lsp version"
         required: true
+  push:
+    tags:
+      - 'v*'
+  release:
+    types: [created]
 
 jobs:
   check:
@@ -141,13 +146,28 @@ jobs:
         with:
           path: artifacts
 
+      - name: determine release tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "RELEASE_TAG=v${{ inputs.version }}" >> $GITHUB_ENV
+          elif [ "${{ github.event_name }}" = "release" ]; then
+            # when triggered by release created event, use the release tag
+            echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          else
+            # push ref for tag push is refs/tags/<tag>
+            REF=${GITHUB_REF}
+            TAG=${REF#refs/tags/}
+            echo "RELEASE_TAG=${TAG}" >> $GITHUB_ENV
+          fi
+
       - name: Create the release
         uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ inputs.version }}
-          name: v${{ inputs.version }}
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_TAG }}
           draft: true
           files: |
             artifacts/**/*
