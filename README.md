@@ -2,6 +2,12 @@
 
 Gram Discord Presence adds Discord Rich Presence support to **Gram** using an LSP.
 
+---
+
+## Preview
+
+![](./assets/examples/example.png)
+
 ## Requirements
 
 - Rust
