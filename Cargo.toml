@@ -1,6 +1,6 @@
 [package]
 name = "gram-discord-presence"
-version = "0.2.4"
+version = "0.2.7"
 edition = "2021"
 license-file = "LICENSE"
 repository = "https://github.com/playfairs/gram-discord-presence"
