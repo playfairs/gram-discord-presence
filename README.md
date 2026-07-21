@@ -26,4 +26,4 @@ Open the Command Palette and run:
 
 ---
 
-This is a **Gram-branded fork** of the original Discord presence extension.
+This is a **Gram-branded hard-fork** of [Zed Discord Presence](https://github.com/xhyrom/zed-discord-presence)
