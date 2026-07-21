@@ -1,9 +1,9 @@
 [package]
-name = "zed-discord-presence"
+name = "gram-discord-presence"
 version = "0.2.4"
 edition = "2021"
 license-file = "LICENSE"
-repository = "https://github.com/xhyrom/zed-discord-presence"
+repository = "https://github.com/playfairs/gram-discord-presence"
 
 [lib]
 path = "src/discord_presence.rs"

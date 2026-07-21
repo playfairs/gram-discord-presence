@@ -20,8 +20,8 @@ impl Default for Activity {
             details: Some(String::from("In {workspace}")),
             large_image: Some(String::from("{base_icons_url}/{language:lo}.png")),
             large_text: Some(String::from("{language:u}")),
-            small_image: Some(String::from("{base_icons_url}/zed.png")),
-            small_text: Some(String::from("Zed")),
+            small_image: Some(String::from("{base_icons_url}/gram.png")),
+            small_text: Some(String::from("Gram")),
         }
     }
 }

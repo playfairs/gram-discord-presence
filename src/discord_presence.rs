@@ -72,7 +72,7 @@ impl DiscordPresenceExtension {
         );
 
         let release = zed::latest_github_release(
-            "xhyrom/zed-discord-presence",
+            "playfairs/gram-discord-presence",
             zed::GithubReleaseOptions {
                 require_assets: true,
                 pre_release: false,

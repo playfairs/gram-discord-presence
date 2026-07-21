@@ -227,10 +227,10 @@ mod tests {
     fn test_override_fields() {
         let ov = parse_one(&serde_json::json!({
             "match": {},
-            "state": "Working in Zed",
+            "state": "Working in Gram",
             "details": null
         }));
-        assert_eq!(ov.state, OverrideField::Set("Working in Zed".to_string()));
+        assert_eq!(ov.state, OverrideField::Set("Working in Gram".to_string()));
         assert_eq!(ov.details, OverrideField::Clear);
         assert_eq!(ov.large_image, OverrideField::Inherit);
     }

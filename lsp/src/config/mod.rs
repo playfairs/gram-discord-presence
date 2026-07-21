@@ -40,7 +40,7 @@ use crate::{config::activity::Activity, error::Result};
 
 const DEFAULT_APP_ID: &str = "1263505205522337886";
 const DEFAULT_ICONS_URL: &str =
-    "https://raw.githubusercontent.com/xhyrom/zed-discord-presence/main/assets/icons/";
+    "https://raw.githubusercontent.com/playfairs/gram-discord-presence/main/assets/icons/";
 
 #[derive(Debug, Clone)]
 pub struct Configuration {

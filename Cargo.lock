@@ -342,6 +342,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "gram-discord-presence"
+version = "0.2.4"
+dependencies = [
+ "zed_extension_api",
+]
+
+[[package]]
 name = "hashbrown"
 version = "0.14.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1428,13 +1435,6 @@ dependencies = [
  "quote",
  "syn",
  "synstructure",
-]
-
-[[package]]
-name = "zed-discord-presence"
-version = "0.2.4"
-dependencies = [
- "zed_extension_api",
 ]
 
 [[package]]
