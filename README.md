@@ -18,6 +18,8 @@ Gram Discord Presence adds Discord Rich Presence support to **Gram** using an LS
 
 Because Gram doesn't have an extension registry.
 
+Open Gram (try [open](gram://))
+
 Open the Command Palette and run:
 
 `Gram: Install Extension from URL`
