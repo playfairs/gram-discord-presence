@@ -8,6 +8,7 @@ Gram Discord Presence adds Discord Rich Presence support to **Gram** using an LS
 
 ![](./assets/examples/example.png)
 
+
 ## Requirements
 
 - Rust
@@ -29,6 +30,10 @@ Open the Command Palette and run:
 2. Run `Gram: Install Extension from folder`.
 3. Select the cloned directory.
 4. Reload Gram.
+
+## Configuration
+
+Configuration for **gram-discord-presence** can be found [here](./docs/configuration.md). Configuration based on https://github.com/xhyrom/zed-discord-presence#readme
 
 ---
 
