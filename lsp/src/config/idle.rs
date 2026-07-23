@@ -18,8 +18,8 @@
  */
 
 use crate::{
-  config::activity::Activity,
-  error::Result,
+    config::activity::Activity,
+    error::Result,
 };
 
 use super::update::UpdateFromJson;
@@ -30,85 +30,85 @@ const DEFAULT_IDLE_TIMEOUT: u64 = 3600; // 1 hour
 
 #[derive(Default, Debug, Clone, PartialEq)]
 pub enum IdleAction {
-  ClearActivity,
-  #[default]
-  ChangeActivity,
+    ClearActivity,
+    #[default]
+    ChangeActivity,
 }
 
 #[derive(Debug, Clone)]
 pub struct Idle {
-  pub timeout: Duration,
-  pub action: IdleAction,
-  pub activity: Activity,
+    pub timeout: Duration,
+    pub action: IdleAction,
+    pub activity: Activity,
 }
 
 impl Default for Idle {
-  fn default() -> Self {
-    Self {
-      timeout: Duration::from_secs(DEFAULT_IDLE_TIMEOUT),
-      action: IdleAction::default(),
-      activity: Activity {
-        state: Some("Idling".to_string()),
-        details: Some(String::from("In {workspace}")),
-        large_image: Some("{base_icons_url}/gram.png".to_string()),
-        large_text: Some("Gram".to_string()),
-        small_image: Some("{base_icons_url}/idle.png".to_string()),
-        small_text: Some("Gram".to_string()),
-      },
+    fn default() -> Self {
+        Self {
+            timeout: Duration::from_secs(DEFAULT_IDLE_TIMEOUT),
+            action: IdleAction::default(),
+            activity: Activity {
+                state: Some("Idling".to_string()),
+                details: Some(String::from("In {workspace}")),
+                large_image: Some("{base_icons_url}/gram.png".to_string()),
+                large_text: Some("Gram".to_string()),
+                small_image: Some("{base_icons_url}/idle.png".to_string()),
+                small_text: Some("Gram".to_string()),
+            },
+        }
     }
-  }
 }
 
 impl UpdateFromJson for Idle {
-  fn update_from_json(&mut self, json: &Value) -> Result<()> {
-    if let Some(timeout) = json.get("timeout").and_then(Value::as_u64) {
-      self.timeout = Duration::from_secs(timeout);
-    }
+    fn update_from_json(&mut self, json: &Value) -> Result<()> {
+        if let Some(timeout) = json.get("timeout").and_then(Value::as_u64) {
+            self.timeout = Duration::from_secs(timeout);
+        }
 
-    if let Some(action) = json.get("action").and_then(Value::as_str) {
-      self.action = match action {
-        "clear_activity" => IdleAction::ClearActivity,
-        "change_activity" => IdleAction::ChangeActivity,
-        _ => IdleAction::default(),
-      };
-    }
+        if let Some(action) = json.get("action").and_then(Value::as_str) {
+            self.action = match action {
+                "clear_activity" => IdleAction::ClearActivity,
+                "change_activity" => IdleAction::ChangeActivity,
+                _ => IdleAction::default(),
+            };
+        }
 
-    if let Some(activity) = json.get("activity") {
-      self.activity.update_from_json(activity)?;
-    } else {
-      self.activity.update_from_json(json)?;
-    }
+        if let Some(activity) = json.get("activity") {
+            self.activity.update_from_json(activity)?;
+        } else {
+            self.activity.update_from_json(json)?;
+        }
 
-    Ok(())
-  }
+        Ok(())
+    }
 }
 
 #[cfg(test)]
 mod tests {
-  use super::*;
+    use super::*;
 
-  #[test]
-  fn test_default_idle() {
-    let idle = Idle::default();
-    assert_eq!(idle.timeout, Duration::from_secs(DEFAULT_IDLE_TIMEOUT));
-    assert_eq!(idle.action, IdleAction::ChangeActivity);
-  }
+    #[test]
+    fn test_default_idle() {
+        let idle = Idle::default();
+        assert_eq!(idle.timeout, Duration::from_secs(DEFAULT_IDLE_TIMEOUT));
+        assert_eq!(idle.action, IdleAction::ChangeActivity);
+    }
 
-  #[test]
-  fn test_update_from_json() {
-    let mut idle = Idle::default();
-    let json = serde_json::json!({
-        "timeout": 600,
-        "action": "clear_activity",
-        "state": "Custom Idle State",
-        "details": null
-    });
+    #[test]
+    fn test_update_from_json() {
+        let mut idle = Idle::default();
+        let json = serde_json::json!({
+            "timeout": 600,
+            "action": "clear_activity",
+            "state": "Custom Idle State",
+            "details": null
+        });
 
-    idle.update_from_json(&json).unwrap();
+        idle.update_from_json(&json).unwrap();
 
-    assert_eq!(idle.timeout, Duration::from_secs(600));
-    assert_eq!(idle.action, IdleAction::ClearActivity);
-    assert_eq!(idle.activity.state, Some("Custom Idle State".to_string()));
-    assert_eq!(idle.activity.details, None);
-  }
+        assert_eq!(idle.timeout, Duration::from_secs(600));
+        assert_eq!(idle.action, IdleAction::ClearActivity);
+        assert_eq!(idle.activity.state, Some("Custom Idle State".to_string()));
+        assert_eq!(idle.activity.details, None);
+    }
 }

@@ -24,32 +24,32 @@ pub use placeholders::Placeholders;
 /// Helper function to conditionally set a field on an object
 pub fn set_optional_field<'a, T, F>(mut obj: T, field: Option<&'a str>, setter: F) -> T
 where
-  F: FnOnce(T, &'a str) -> T,
+    F: FnOnce(T, &'a str) -> T,
 {
-  if let Some(value) = field {
-    obj = setter(obj, value);
-  }
-  obj
+    if let Some(value) = field {
+        obj = setter(obj, value);
+    }
+    obj
 }
 
 /// Capitalizes the first letter of a string
 pub fn capitalize_first_letter(s: &str) -> String {
-  let mut chars = s.chars();
-  match chars.next() {
-    None => String::new(),
-    Some(first) => first.to_uppercase().collect::<String>() + chars.as_str(),
-  }
+    let mut chars = s.chars();
+    match chars.next() {
+        None => String::new(),
+        Some(first) => first.to_uppercase().collect::<String>() + chars.as_str(),
+    }
 }
 
 #[cfg(test)]
 mod tests {
-  use super::*;
+    use super::*;
 
-  #[test]
-  fn test_capitalize_first_letter() {
-    assert_eq!(capitalize_first_letter("hello"), "Hello");
-    assert_eq!(capitalize_first_letter(""), "");
-    assert_eq!(capitalize_first_letter("a"), "A");
-    assert_eq!(capitalize_first_letter("HELLO"), "HELLO");
-  }
+    #[test]
+    fn test_capitalize_first_letter() {
+        assert_eq!(capitalize_first_letter("hello"), "Hello");
+        assert_eq!(capitalize_first_letter(""), "");
+        assert_eq!(capitalize_first_letter("a"), "A");
+        assert_eq!(capitalize_first_letter("HELLO"), "HELLO");
+    }
 }

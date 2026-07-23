@@ -18,47 +18,47 @@
  */
 
 use crate::error::{
-  PresenceError,
-  Result,
+    PresenceError,
+    Result,
 };
 use std::path::Path;
 
 #[derive(Debug)]
 pub struct WorkspaceService {
-  name: String,
-  path: Option<String>,
+    name: String,
+    path: Option<String>,
 }
 
 impl WorkspaceService {
-  pub fn new() -> Self {
-    Self {
-      name: String::new(),
-      path: None,
+    pub fn new() -> Self {
+        Self {
+            name: String::new(),
+            path: None,
+        }
     }
-  }
 
-  pub fn set_workspace(&mut self, workspace_path: &Path) -> Result<()> {
-    let name = workspace_path
-      .file_name()
-      .ok_or_else(|| PresenceError::Config("Invalid workspace path".to_string()))?
-      .to_str()
-      .ok_or_else(|| PresenceError::Config("Invalid workspace path encoding".to_string()))?;
+    pub fn set_workspace(&mut self, workspace_path: &Path) -> Result<()> {
+        let name = workspace_path
+            .file_name()
+            .ok_or_else(|| PresenceError::Config("Invalid workspace path".to_string()))?
+            .to_str()
+            .ok_or_else(|| PresenceError::Config("Invalid workspace path encoding".to_string()))?;
 
-    let path = workspace_path
-      .to_str()
-      .ok_or_else(|| PresenceError::Config("Invalid workspace path encoding".to_string()))?;
+        let path = workspace_path
+            .to_str()
+            .ok_or_else(|| PresenceError::Config("Invalid workspace path encoding".to_string()))?;
 
-    self.name = name.to_string();
-    self.path = Some(path.to_string());
+        self.name = name.to_string();
+        self.path = Some(path.to_string());
 
-    Ok(())
-  }
+        Ok(())
+    }
 
-  pub fn name(&self) -> &str {
-    &self.name
-  }
+    pub fn name(&self) -> &str {
+        &self.name
+    }
 
-  pub fn path(&self) -> Option<&str> {
-    self.path.as_deref()
-  }
+    pub fn path(&self) -> Option<&str> {
+        self.path.as_deref()
+    }
 }
