@@ -85,11 +85,13 @@ mod tests {
 
     #[test]
     fn test_meson_build_language() {
-        let url = Url::parse("file:///home/user/project/meson.build").unwrap();
         let workspace_root = Path::new("/home/user/project");
 
-        let document = Document::new(&url, workspace_root, None);
-        let lang = get_language(&document);
-        assert_eq!(lang, "meson");
+        for file_name in &["meson.build", "Meson.build"] {
+            let url = Url::parse(&format!("file:///home/user/project/{file_name}")).unwrap();
+            let document = Document::new(&url, workspace_root, None);
+            let lang = get_language(&document);
+            assert_eq!(lang, "meson", "Expected {file_name} to detect as meson");
+        }
     }
 }
