@@ -59,9 +59,9 @@ impl ActivityFields {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::activity::ActivityManager;
     use crate::config::Configuration;
     use crate::document::Document;
-    use crate::activity::ActivityManager;
     use std::path::Path;
     use tower_lsp::lsp_types::Url;
 
