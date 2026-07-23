@@ -1,6 +1,6 @@
 id = "discord-presence"
 name = "Gram Presence"
-version = "0.2.7"
+version = "0.2.8"
 schema_version = 1
 authors = ["Jozef Steinhübl <contact@xhyrom.dev>", "playfairs <root@playfairs.cc>"]
 description = "Presence for your beautiful Gram account :)"
