@@ -23,19 +23,12 @@ use crate::{
     document::Document,
     error::Result,
     idle::IdleManager,
-    service::{
-        AppState,
-        FileMonitor,
-    },
+    service::{AppState, FileMonitor},
 };
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::sync::Mutex;
-use tracing::{
-    debug,
-    info,
-    warn,
-};
+use tracing::{debug, info, warn};
 
 #[derive(Debug)]
 pub struct PresenceService {

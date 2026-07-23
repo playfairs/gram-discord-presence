@@ -28,29 +28,15 @@ pub use presence::PresenceConfig;
 
 use std::collections::HashMap;
 
-pub use idle::{
-    Idle,
-    IdleAction,
-};
+pub use idle::{Idle, IdleAction};
 pub use rules::Rules;
-use tracing::{
-    debug,
-    error,
-    info,
-    instrument,
-};
+use tracing::{debug, error, info, instrument};
 use update::UpdateFromJson;
 pub use workspace_override::WorkspaceOverride;
 
-use serde_json::{
-    Map,
-    Value,
-};
+use serde_json::{Map, Value};
 
-use crate::{
-    config::activity::Activity,
-    error::Result,
-};
+use crate::{config::activity::Activity, error::Result};
 
 const DEFAULT_APP_ID: &str = "1529209714779492443";
 const DEFAULT_ICONS_URL: &str =

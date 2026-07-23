@@ -22,11 +22,8 @@ pub use fields::ActivityFields;
 
 use crate::{
     config::{
+        workspace_override::{OverrideField, WorkspaceOverride},
         Configuration,
-        workspace_override::{
-            OverrideField,
-            WorkspaceOverride,
-        },
     },
     document::Document,
     languages::get_language,

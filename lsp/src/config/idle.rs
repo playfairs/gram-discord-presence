@@ -17,10 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use crate::{
-    config::activity::Activity,
-    error::Result,
-};
+use crate::{config::activity::Activity, error::Result};
 
 use super::update::UpdateFromJson;
 use serde_json::Value;

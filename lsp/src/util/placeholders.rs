@@ -18,12 +18,9 @@
  */
 
 use crate::{
-    Document,
-    config::{
-        Configuration,
-        workspace_override::HideFields,
-    },
+    config::{workspace_override::HideFields, Configuration},
     languages::get_language,
+    Document,
 };
 
 macro_rules! replace_with_capitalization {

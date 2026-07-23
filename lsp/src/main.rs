@@ -17,55 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use std::path::{
-    Path,
-    PathBuf,
-};
+use std::path::{Path, PathBuf};
 use std::process::exit;
-use std::sync::Arc;
 use std::sync::atomic::Ordering;
+use std::sync::Arc;
 
 use config::PresenceConfig;
 use document::Document;
 use git::get_repository_and_remote;
-use service::{
-    AppState,
-    PresenceService,
-};
+use service::{AppState, PresenceService};
 use tokio::sync::Mutex;
 use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::{
-    DidChangeTextDocumentParams,
-    DidOpenTextDocumentParams,
-    DidSaveTextDocumentParams,
-    DocumentHighlight,
-    DocumentHighlightParams,
-    InitializeParams,
-    InitializeResult,
-    InitializedParams,
-    MessageType,
-    SaveOptions,
-    ServerCapabilities,
-    ServerInfo,
-    TextDocumentSyncCapability,
-    TextDocumentSyncKind,
-    TextDocumentSyncOptions,
-    TextDocumentSyncSaveOptions,
-    WorkspaceServerCapabilities,
+    DidChangeTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams,
+    DocumentHighlight, DocumentHighlightParams, InitializeParams, InitializeResult,
+    InitializedParams, MessageType, SaveOptions, ServerCapabilities, ServerInfo,
+    TextDocumentSyncCapability, TextDocumentSyncKind, TextDocumentSyncOptions,
+    TextDocumentSyncSaveOptions, WorkspaceServerCapabilities,
 };
-use tower_lsp::{
-    Client,
-    LanguageServer,
-    LspService,
-    Server,
-};
-use tracing::{
-    debug,
-    error,
-    info,
-    instrument,
-    warn,
-};
+use tower_lsp::{Client, LanguageServer, LspService, Server};
+use tracing::{debug, error, info, instrument, warn};
 
 mod activity;
 mod config;

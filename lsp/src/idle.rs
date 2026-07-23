@@ -18,26 +18,17 @@
  */
 
 use std::sync::{
+    atomic::{AtomicBool, Ordering},
     Arc,
-    atomic::{
-        AtomicBool,
-        Ordering,
-    },
 };
 use tokio::sync::Mutex;
 use tokio::task::JoinHandle;
 use tokio::time;
-use tracing::{
-    debug,
-    warn,
-};
+use tracing::{debug, warn};
 
 use crate::{
     activity::ActivityManager,
-    config::{
-        Configuration,
-        IdleAction,
-    },
+    config::{Configuration, IdleAction},
     discord::Discord,
     document::Document,
 };

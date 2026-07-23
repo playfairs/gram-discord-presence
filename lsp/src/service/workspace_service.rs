@@ -17,10 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use crate::error::{
-    PresenceError,
-    Result,
-};
+use crate::error::{PresenceError, Result};
 use std::path::Path;
 
 #[derive(Debug)]

@@ -18,9 +18,7 @@
  */
 
 use std::fs;
-use zed_extension_api::{
-    self as zed,
-};
+use zed_extension_api::{self as zed};
 
 struct DiscordPresenceExtension {
     cached_binary_path: Option<String>,

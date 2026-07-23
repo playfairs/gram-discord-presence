@@ -17,15 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use crate::error::{
-    PresenceError,
-    Result,
-};
+use crate::error::{PresenceError, Result};
 use std::ffi::OsStr;
-use std::path::{
-    Path,
-    PathBuf,
-};
+use std::path::{Path, PathBuf};
 use tower_lsp::lsp_types::Url;
 
 #[derive(Debug, Clone)]

@@ -25,17 +25,10 @@ pub use file_monitor::FileMonitor;
 pub use presence_service::PresenceService;
 pub use workspace_service::WorkspaceService;
 
-use crate::{
-    config::Configuration,
-    discord::Discord,
-    document::Document,
-};
+use crate::{config::Configuration, discord::Discord, document::Document};
 use std::sync::{
+    atomic::{AtomicBool, Ordering},
     Arc,
-    atomic::{
-        AtomicBool,
-        Ordering,
-    },
 };
 use tokio::sync::Mutex;
 

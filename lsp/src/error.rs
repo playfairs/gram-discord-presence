@@ -17,10 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use std::{
-    fmt,
-    string::FromUtf8Error,
-};
+use std::{fmt, string::FromUtf8Error};
 
 #[derive(Debug)]
 pub enum PresenceError {

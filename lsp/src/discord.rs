@@ -17,44 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
-use std::sync::atomic::{
-    AtomicBool,
-    Ordering,
-};
-use std::time::{
-    Duration,
-    SystemTime,
-    UNIX_EPOCH,
-};
-use tokio::sync::{
-    Mutex,
-    MutexGuard,
-};
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use tokio::sync::{Mutex, MutexGuard};
 
 use discord_rich_presence::{
-    DiscordIpc,
-    DiscordIpcClient,
-    activity::{
-        Activity,
-        Assets,
-        Button,
-        Timestamps,
-    },
+    activity::{Activity, Assets, Button, Timestamps},
+    DiscordIpc, DiscordIpcClient,
 };
-use tracing::{
-    debug,
-    error,
-    info,
-    instrument,
-    warn,
-};
+use tracing::{debug, error, info, instrument, warn};
 
 use crate::activity::ActivityFields;
-use crate::{
-    error::Result,
-    util,
-};
+use crate::{error::Result, util};
 
 /// Maximum number of connection retries
 const MAX_RETRIES: u32 = 5;

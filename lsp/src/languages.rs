@@ -20,10 +20,7 @@
 use regex::RegexBuilder;
 use serde_json::from_str;
 use std::collections::HashMap;
-use std::sync::{
-    LazyLock,
-    Mutex,
-};
+use std::sync::{LazyLock, Mutex};
 
 use crate::Document;
 

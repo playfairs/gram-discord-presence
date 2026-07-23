@@ -19,17 +19,8 @@
 
 use std::env;
 use tracing::Level;
-use tracing_appender::rolling::{
-    RollingFileAppender,
-    Rotation,
-};
-use tracing_subscriber::{
-    EnvFilter,
-    Layer,
-    fmt,
-    layer::SubscriberExt,
-    util::SubscriberInitExt,
-};
+use tracing_appender::rolling::{RollingFileAppender, Rotation};
+use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer};
 
 pub fn init_logger() {
     let log_level = env::var("DISCORD_PRESENCE_LOG_LEVEL")
