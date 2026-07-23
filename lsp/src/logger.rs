@@ -19,71 +19,80 @@
 
 use std::env;
 use tracing::Level;
-use tracing_appender::rolling::{RollingFileAppender, Rotation};
-use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer};
+use tracing_appender::rolling::{
+  RollingFileAppender,
+  Rotation,
+};
+use tracing_subscriber::{
+  EnvFilter,
+  Layer,
+  fmt,
+  layer::SubscriberExt,
+  util::SubscriberInitExt,
+};
 
 pub fn init_logger() {
-    let log_level = env::var("DISCORD_PRESENCE_LOG_LEVEL")
-        .unwrap_or_else(|_| "info".to_string())
-        .to_lowercase();
+  let log_level = env::var("DISCORD_PRESENCE_LOG_LEVEL")
+    .unwrap_or_else(|_| "info".to_string())
+    .to_lowercase();
 
-    let level = match log_level.as_str() {
-        "trace" => Level::TRACE,
-        "debug" => Level::DEBUG,
-        "info" => Level::INFO,
-        "warn" => Level::WARN,
-        "error" => Level::ERROR,
-        _ => unreachable!(),
-    };
+  let level = match log_level.as_str() {
+    "trace" => Level::TRACE,
+    "debug" => Level::DEBUG,
+    "info" => Level::INFO,
+    "warn" => Level::WARN,
+    "error" => Level::ERROR,
+    _ => unreachable!(),
+  };
 
-    let filter = EnvFilter::from_default_env()
-        .add_directive(format!("discord_presence_lsp={level}").parse().unwrap())
-        .add_directive(format!("tower_lsp={level}").parse().unwrap()) // Reduce tower-lsp noise
-        .add_directive(format!("discord_rich_presence={level}").parse().unwrap()); // Reduce discord lib noise
+  let filter = EnvFilter::from_default_env()
+    .add_directive(format!("discord_presence_lsp={level}").parse().unwrap())
+    .add_directive(format!("tower_lsp={level}").parse().unwrap()) // Reduce tower-lsp noise
+    .add_directive(format!("discord_rich_presence={level}").parse().unwrap()); // Reduce discord lib noise
 
-    let log_to_file =
-        env::var("DISCORD_PRESENCE_LOG_TO_FILE").is_ok_and(|v| v.to_lowercase() == "true");
+  let log_to_file =
+    env::var("DISCORD_PRESENCE_LOG_TO_FILE").is_ok_and(|v| v.to_lowercase() == "true");
 
-    if log_to_file {
-        let log_dir = env::var("DISCORD_PRESENCE_LOG_DIR").unwrap_or_else(|_| {
-            if cfg!(target_os = "windows") {
-                format!(
-                    "{}\\AppData\\Local\\discord-presence-lsp\\logs",
-                    env::var("USERPROFILE").unwrap_or_else(|_| "C:\\".to_string())
-                )
-            } else {
-                format!(
-                    "{}/.local/share/discord-presence-lsp/logs",
-                    env::var("HOME").unwrap_or_else(|_| "/tmp".to_string())
-                )
-            }
-        });
+  if log_to_file {
+    let log_dir = env::var("DISCORD_PRESENCE_LOG_DIR").unwrap_or_else(|_| {
+      if cfg!(target_os = "windows") {
+        format!(
+          "{}\\AppData\\Local\\discord-presence-lsp\\logs",
+          env::var("USERPROFILE").unwrap_or_else(|_| "C:\\".to_string())
+        )
+      } else {
+        format!(
+          "{}/.local/share/discord-presence-lsp/logs",
+          env::var("HOME").unwrap_or_else(|_| "/tmp".to_string())
+        )
+      }
+    });
 
-        if let Err(e) = std::fs::create_dir_all(&log_dir) {
-            eprintln!("Failed to create log directory {log_dir}: {e}");
-            return;
-        }
-
-        let file_appender =
-            RollingFileAppender::new(Rotation::DAILY, log_dir, "discord-presence-lsp.log");
-        let file_layer = fmt::layer()
-            .with_writer(file_appender)
-            .with_ansi(false)
-            .with_target(true)
-            .with_thread_ids(true)
-            .with_thread_names(true)
-            .with_filter(filter);
-
-        tracing_subscriber::registry().with(file_layer).init();
-    } else {
-        let stderr_layer = fmt::layer()
-            .with_writer(std::io::stderr)
-            .with_ansi(false)
-            .with_target(false)
-            .with_thread_ids(false)
-            .with_thread_names(false)
-            .with_filter(filter);
-
-        tracing_subscriber::registry().with(stderr_layer).init();
+    if let Err(e) = std::fs::create_dir_all(&log_dir) {
+      eprintln!("Failed to create log directory {log_dir}: {e}");
+      return;
     }
+
+    let file_appender =
+      RollingFileAppender::new(Rotation::DAILY, log_dir, "discord-presence-lsp.log");
+    let file_layer = fmt::layer()
+      .with_writer(file_appender)
+      .with_ansi(false)
+      .with_target(true)
+      .with_thread_ids(true)
+      .with_thread_names(true)
+      .with_filter(filter);
+
+    tracing_subscriber::registry().with(file_layer).init();
+  } else {
+    let stderr_layer = fmt::layer()
+      .with_writer(std::io::stderr)
+      .with_ansi(false)
+      .with_target(false)
+      .with_thread_ids(false)
+      .with_thread_names(false)
+      .with_filter(filter);
+
+    tracing_subscriber::registry().with(stderr_layer).init();
+  }
 }

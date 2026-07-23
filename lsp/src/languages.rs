@@ -20,78 +20,81 @@
 use regex::RegexBuilder;
 use serde_json::from_str;
 use std::collections::HashMap;
-use std::sync::{LazyLock, Mutex};
+use std::sync::{
+  LazyLock,
+  Mutex,
+};
 
 use crate::Document;
 
 static LANGUAGE_MAP: LazyLock<Mutex<HashMap<String, String>>> = LazyLock::new(|| {
-    let data = include_str!("../../assets/languages.json");
-    let data: HashMap<String, String> = from_str(data).unwrap();
-    Mutex::new(data)
+  let data = include_str!("../../assets/languages.json");
+  let data: HashMap<String, String> = from_str(data).unwrap();
+  Mutex::new(data)
 });
 
 pub fn get_language(document: &Document) -> String {
-    let map = LANGUAGE_MAP.lock().unwrap();
+  let map = LANGUAGE_MAP.lock().unwrap();
 
-    let filename = document
-        .get_filename()
-        .unwrap_or_else(|_| "unknown".to_string());
-    let extension = format!(".{}", document.get_extension());
+  let filename = document
+    .get_filename()
+    .unwrap_or_else(|_| "unknown".to_string());
+  let extension = format!(".{}", document.get_extension());
 
-    if let Some(s) = map.get(&filename) {
-        return s.clone();
+  if let Some(s) = map.get(&filename) {
+    return s.clone();
+  }
+
+  for (pattern, language) in map.iter() {
+    let pattern = pattern.strip_prefix("regex:");
+    if pattern.is_none() {
+      continue;
     }
 
-    for (pattern, language) in map.iter() {
-        let pattern = pattern.strip_prefix("regex:");
-        if pattern.is_none() {
-            continue;
-        }
-
-        if let Ok(re) = RegexBuilder::new(pattern.unwrap())
-            .case_insensitive(true)
-            .build()
-        {
-            if re.is_match(&filename) || re.is_match(&extension) {
-                return language.clone();
-            }
-        }
+    if let Ok(re) = RegexBuilder::new(pattern.unwrap())
+      .case_insensitive(true)
+      .build()
+    {
+      if re.is_match(&filename) || re.is_match(&extension) {
+        return language.clone();
+      }
     }
+  }
 
-    if let Some(s) = map.get(&extension) {
-        return s.clone();
-    }
+  if let Some(s) = map.get(&extension) {
+    return s.clone();
+  }
 
-    String::from("text")
+  String::from("text")
 }
 
 #[cfg(test)]
 mod tests {
-    use std::path::Path;
+  use std::path::Path;
 
-    use tower_lsp::lsp_types::Url;
+  use tower_lsp::lsp_types::Url;
 
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn test_unicode_perl() {
-        let url = Url::parse("file:///home/user/project/file.php").unwrap();
-        let workspace_root = Path::new("/home/user/project");
+  #[test]
+  fn test_unicode_perl() {
+    let url = Url::parse("file:///home/user/project/file.php").unwrap();
+    let workspace_root = Path::new("/home/user/project");
 
-        let document = Document::new(&url, workspace_root, None);
-        let lang = get_language(&document);
-        assert_eq!(lang, "php");
+    let document = Document::new(&url, workspace_root, None);
+    let lang = get_language(&document);
+    assert_eq!(lang, "php");
+  }
+
+  #[test]
+  fn test_meson_build_language() {
+    let workspace_root = Path::new("/home/user/project");
+
+    for file_name in &["meson.build", "Meson.build"] {
+      let url = Url::parse(&format!("file:///home/user/project/{file_name}")).unwrap();
+      let document = Document::new(&url, workspace_root, None);
+      let lang = get_language(&document);
+      assert_eq!(lang, "meson", "Expected {file_name} to detect as meson");
     }
-
-    #[test]
-    fn test_meson_build_language() {
-        let workspace_root = Path::new("/home/user/project");
-
-        for file_name in &["meson.build", "Meson.build"] {
-            let url = Url::parse(&format!("file:///home/user/project/{file_name}")).unwrap();
-            let document = Document::new(&url, workspace_root, None);
-            let lang = get_language(&document);
-            assert_eq!(lang, "meson", "Expected {file_name} to detect as meson");
-        }
-    }
+  }
 }

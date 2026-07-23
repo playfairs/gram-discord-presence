@@ -8,11 +8,21 @@ workspace = true
 
 [dependencies]
 discord-rich-presence = { git = "https://github.com/vionya/discord-rich-presence.git", rev = "cf51648ef0745da8c56d5da9a5e9d64135a1735c" }
-tokio = { version = "1.37.0", features = ["rt-multi-thread", "io-std", "macros", "time"] }
+tokio = { version = "1.37.0", features = [
+  "rt-multi-thread",
+  "io-std",
+  "macros",
+  "time",
+] }
 tower-lsp = "0.20.0"
 git2 = { version = "0.20.2", default-features = false }
 serde_json = { version = "1.0.122", features = ["std"] }
-regex = { version = "1.10.6", default-features = false, features = ["std", "perf", "unicode-case", "unicode-perl"] }
+regex = { version = "1.10.6", default-features = false, features = [
+  "std",
+  "perf",
+  "unicode-case",
+  "unicode-perl",
+] }
 urlencoding = "2.1.3"
 tracing = "0.1.41"
 tracing-subscriber = { version = "0.3.19", features = ["env-filter", "json"] }
