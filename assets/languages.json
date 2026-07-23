@@ -216,6 +216,7 @@
   "regex:^Kbuild$": "makefile",
   "regex:^makefile$": "makefile",
   "regex:^mkfile$": "makefile",
+  "meson.build": "meson",
   "regex:^\\.?qmake$": "makefile",
   "regex:\\.(geo|topo)$": "manifest",
   ".cson": "manifest",

@@ -58,6 +58,12 @@ pub struct Configuration {
 
 impl Default for Configuration {
     fn default() -> Self {
+        let mut languages = HashMap::default();
+        let mut meson_activity = Activity::default();
+        meson_activity.large_image = Some("{base_icons_url}/meson.png".to_string());
+        meson_activity.large_text = Some("meson.build".to_string());
+        languages.insert("meson".to_string(), meson_activity);
+
         Self {
             application_id: DEFAULT_APP_ID.to_string(),
             base_icons_url: DEFAULT_ICONS_URL.to_string(),
@@ -66,7 +72,7 @@ impl Default for Configuration {
             idle: Idle::default(),
             git_integration: true,
             git_host_overrides: HashMap::default(),
-            languages: HashMap::default(),
+            languages,
             overrides: Vec::default(),
         }
     }

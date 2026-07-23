@@ -82,4 +82,14 @@ mod tests {
         let lang = get_language(&document);
         assert_eq!(lang, "php");
     }
+
+    #[test]
+    fn test_meson_build_language() {
+        let url = Url::parse("file:///home/user/project/meson.build").unwrap();
+        let workspace_root = Path::new("/home/user/project");
+
+        let document = Document::new(&url, workspace_root, None);
+        let lang = get_language(&document);
+        assert_eq!(lang, "meson");
+    }
 }

@@ -59,6 +59,11 @@ impl ActivityFields {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::config::Configuration;
+    use crate::document::Document;
+    use crate::activity::ActivityManager;
+    use std::path::Path;
+    use tower_lsp::lsp_types::Url;
 
     #[test]
     fn test_activity_fields_creation() {
@@ -77,5 +82,28 @@ mod tests {
 
         assert_eq!(fields.state, Some("Working on {filename}".to_string()));
         assert_eq!(fields.details, Some("In {workspace}".to_string()));
+    }
+
+    #[test]
+    fn test_meson_activity_uses_meson_icon_and_label() {
+        let url = Url::parse("file:///home/user/project/meson.build").unwrap();
+        let workspace_root = Path::new("/home/user/project");
+        let document = Document::new(&url, workspace_root, None);
+        let config = Configuration::default();
+
+        let fields = ActivityManager::build_activity_fields(
+            Some(&document),
+            &config,
+            "my-project",
+            "/home/user/project",
+            None,
+            None,
+        );
+
+        assert_eq!(
+            fields.large_image.as_deref(),
+            Some("https://raw.githubusercontent.com/playfairs/gram-discord-presence/main/assets/icons//meson.png")
+        );
+        assert_eq!(fields.large_text.as_deref(), Some("meson.build"));
     }
 }
