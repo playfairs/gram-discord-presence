@@ -1,6 +1,6 @@
 id = "discord-presence"
 name = "Gram Presence"
-version = "0.2.8"
+version = "0.2.9"
 schema_version = 1
 authors = [
   "Jozef Steinhübl <contact@xhyrom.dev>",
