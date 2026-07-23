@@ -59,9 +59,11 @@ pub struct Configuration {
 impl Default for Configuration {
     fn default() -> Self {
         let mut languages = HashMap::default();
-        let mut meson_activity = Activity::default();
-        meson_activity.large_image = Some("{base_icons_url}/meson.png".to_string());
-        meson_activity.large_text = Some("meson.build".to_string());
+        let meson_activity = Activity {
+            large_image: Some("{base_icons_url}/meson.png".to_string()),
+            large_text: Some("meson.build".to_string()),
+            ..Activity::default()
+        };
         languages.insert("meson".to_string(), meson_activity);
 
         Self {
