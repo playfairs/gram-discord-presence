@@ -36,9 +36,13 @@ pub fn get_language(document: &Document) -> String {
     let filename = document
         .get_filename()
         .unwrap_or_else(|_| "unknown".to_string());
-    let extension = format!(".{}", document.get_extension());
+    let filename_lower = filename.to_ascii_lowercase();
+    let extension = format!(".{}", document.get_extension().to_ascii_lowercase());
 
     if let Some(s) = map.get(&filename) {
+        return s.clone();
+    }
+    if let Some(s) = map.get(&filename_lower) {
         return s.clone();
     }
 
@@ -82,4 +86,3 @@ mod tests {
         let lang = get_language(&document);
         assert_eq!(lang, "php");
     }
-}
